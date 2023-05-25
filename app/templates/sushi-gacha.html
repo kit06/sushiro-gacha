@@ -1,0 +1,11 @@
+{%extends 'base.html'%} {%block title%}
+<title>寿司ガチャ</title>
+{%endblock%} {%block body%}
+<h1>寿司ガチャへようこそ</h1>
+<p>下の3つからメニューを選んでください</p>
+<form action="/gacha" method="post">
+  <button type="button" name="sushi" value="1000">松</button>
+  <button type="button" name="sushi" value="3000">竹</button>
+  <button type="button" name="sushi" value="5000">梅</button>
+</form>
+{%endblock %}
