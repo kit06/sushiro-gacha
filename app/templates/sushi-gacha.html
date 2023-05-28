@@ -3,9 +3,15 @@
 {%endblock%} {%block body%}
 <h1>寿司ガチャへようこそ</h1>
 <p>下の3つからメニューを選んでください</p>
-<form action="/gacha" method="post">
+<!-- <form action="/gacha" method="post">
   <button type="button" name="sushi" value="1000">松</button>
   <button type="button" name="sushi" value="3000">竹</button>
   <button type="button" name="sushi" value="5000">梅</button>
+</form> -->
+<form action="/sushi-gacha" method="post">
+  <input type="radio" name="budget" value="1000" >松</input>
+  <input type="radio" name="budget" value="3000" >竹</input>
+  <input type="radio" name="budget" value="5000" >梅</input><br>
+  <button type="submit" name="submit-sushi">寿司ガチャを回す</button>
+  <form>{%endblock %}</form>
 </form>
-{%endblock %}

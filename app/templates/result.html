@@ -1,7 +1,27 @@
-{%extends 'base.html'%}
-{%block title%}
+{%extends 'base.html'%} {%block title%}
 <title>ガチャ結果</title>
-{%endblock%}
-{%block body%}
-  <div>結果</div>
+{%endblock%} {%block body%}
+<h2>{{budget}}円内のガチャ結果</h2>
+<table>
+  <thead>
+    <tr>
+      <th>寿司</th>
+      <th>価格</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in result %}
+    <tr>
+      <td>{{ item.sushi_name }}</td>
+      <td>{{ item.price }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h2>合計価格: {{ total_price }}</h2>
+<form action="/sushi-gacha" method="post">
+  <input type="hidden" name="budget" value="{{ budget }}" />
+  <button type="submit" name="submit-sushi">もう一度引く</button>
+</form>
 {%endblock %}
