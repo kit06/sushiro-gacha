@@ -43,3 +43,32 @@ class Db:
         except SQLAlchemyError as e:
             print(f"Failed calc_min_price: {e}")
             raise e
+        
+    def get_sushi_datas_within_budget(self, budget):
+        # execution query sample:
+        # SELECT *
+        # FROM m_sushi
+        # WHERE id IN (
+        #   SELECT id
+        #   FROM (
+        #     SELECT id, price, SUM(price) OVER (ORDER BY random()) AS running_total
+        #     FROM m_sushi
+        #   ) AS subquery
+        #   WHERE running_total <= 3000
+        # );
+        try:
+            subquery = self.session.query(
+                Sushi.id,
+                Sushi.price,
+                func.sum(Sushi.price).over(order_by=func.random()).label("running_total")
+            ).subquery()
+
+            query = self.session.query(Sushi).filter(Sushi.id.in_(
+                self.session.query(subquery.c.id).filter(subquery.c.running_total <= budget)
+            ))
+
+            result = query.all()
+            return result
+        except SQLAlchemyError as e:
+            print(f"Failed calc_min_price: {e}")
+            raise e
