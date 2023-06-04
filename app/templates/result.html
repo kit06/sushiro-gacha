@@ -1,27 +1,51 @@
 {%extends 'base.html'%} {%block title%}
 <title>ガチャ結果</title>
 {%endblock%} {%block body%}
-<h2>{{budget}}円内のガチャ結果</h2>
-<table>
-  <thead>
-    <tr>
-      <th>寿司</th>
-      <th>価格</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for item in result %}
-    <tr>
-      <td>{{ item.sushi_name }}</td>
-      <td>{{ item.price }}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+<di class="align-items-center text-center">
+  <h2>{{budget}}円内のガチャ結果</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>寿司</th>
+        <th>価格</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in result %}
+      <tr>
+        <td>{{ item.sushi_name }}</td>
+        <td>{{ item.price }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 
-<h2>合計価格: {{ total_price }}</h2>
-<form action="/sushi-gacha" method="post">
-  <input type="hidden" name="budget" value="{{ budget }}" />
-  <button type="submit" name="submit-sushi">もう一度引く</button>
-</form>
+  <div class="mx-auto w-75">
+    {% for item in result %}
+    <div class="card mb-1 bg-gradient
+      {% if item.price < 150 %}
+          bg-warning text-danger
+      {% elif item.price < 300 %}
+          bg-danger text-warning
+      {% else %}
+          bg-secondary text-warning
+      {% endif %}
+    ">
+      <div class="card-body">
+        <h5 class="card-title">{{ item.sushi_name }}</h5>
+        <h6 class="card-subtitle mb-2 text-white">{{ item.price }}円</h6>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <h2 class="my-2">合計価格: {{ total_price }}</h2>
+  <form action="/sushi-gacha" method="post">
+    <input type="hidden" name="budget" value="{{ budget }}" />
+    <button type="submit" name="submit-sushi">もう一度引く</button>
+  </form>
+  <form action="/again-gacha" method="post">
+    <button type="submit" name="submit-sushi">トップ画面へ戻る</button>
+  </form>
+</di>
 {%endblock %}
